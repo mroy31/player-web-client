@@ -1,0 +1,11 @@
+version: v2
+inputs:
+  - proto_file: player/v1/player.proto
+    include_package_files: true
+
+clean: true
+plugins:
+  - local: protoc-gen-es # This plugin is called by buf, used to compile proto files into TS code
+    opt: target=ts # Indicates we want to generate TS code
+    out: src/gen # Directory where generated code is stored
+    include_imports: true
