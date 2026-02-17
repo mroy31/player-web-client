@@ -12,6 +12,7 @@ import RefreshIcon from "@mui/icons-material/Refresh";
 import VideoFileIcon from "@mui/icons-material/VideoFile";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import IconButton from "@mui/material/IconButton";
+import { useTranslation } from "react-i18next";
 import { AppContext } from "../App";
 import {
   Breadcrumbs,
@@ -47,6 +48,7 @@ type PlayDialogProps = {
 };
 
 function PlayDialog({ open, onClose, video, onPlay }: PlayDialogProps) {
+  const { t } = useTranslation();
   const handlePlay = () => {
     onPlay(0);
     onClose();
@@ -62,29 +64,30 @@ function PlayDialog({ open, onClose, video, onPlay }: PlayDialogProps) {
       <DialogTitle>{video.name}</DialogTitle>
       <DialogContent>
         <List>
-          <ListItem onClick={handlePlay} sx={{cursor: "pointer"}}>
+          <ListItem onClick={handlePlay} sx={{ cursor: "pointer" }}>
             <ListItemText
-              primary="Play from the beginning"
-              secondary={`Duration: ${FormatTime(video.duration)}`}
+              primary={t("library.playFromBeginning")}
+              secondary={`${t("library.duration")}: ${FormatTime(video.duration)}`}
             />
           </ListItem>
 
-          <ListItem onClick={handleResume} sx={{cursor: "pointer"}}>
+          <ListItem onClick={handleResume} sx={{ cursor: "pointer" }}>
             <ListItemText
-              primary="Resume at"
-              secondary={`At ${FormatTime(video.lastPosition)}/${FormatTime(video.duration)}`}
+              primary={t("library.resumeAt")}
+              secondary={`${t("common.at")} ${FormatTime(video.lastPosition)}/${FormatTime(video.duration)}`}
             />
           </ListItem>
         </List>
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose}>Cancel</Button>
+        <Button onClick={onClose}>{t("common.cancel")}</Button>
       </DialogActions>
     </Dialog>
   );
 }
 
 function LibraryTabContent(props: { value: string }) {
+  const { t } = useTranslation();
   const theme = useTheme();
   const { client, error, info } = React.useContext(AppContext);
   const [currentPath, setCurrentPath] = React.useState("");
@@ -135,9 +138,11 @@ function LibraryTabContent(props: { value: string }) {
   const updateLibrary = React.useCallback(() => {
     client
       ?.libraryUpdate({ name: props.value })
-      .then(() => {info("Library updated")})
+      .then(() => {
+        info(t("library.libraryUpdated"));
+      })
       .catch((err) => error(err));
-  }, [client, props.value]);
+  }, [client, props.value, t, info]);
 
   React.useEffect(() => {
     getFolderContent("");
@@ -172,10 +177,29 @@ function LibraryTabContent(props: { value: string }) {
         sx={{ flex: "none", py: "5px" }}
       >
         <Breadcrumbs sx={{ mx: "5px" }}>
-          {currentPath == "" && <Typography></Typography>}
-          {currentPath.split("/").map((p) => (
-            <Typography>{p}</Typography>
-          ))}
+          {currentPath != "" && (
+            <Typography
+              onClick={() => getFolderContent("")}
+              sx={{ cursor: "pointer" }}
+            >
+              {t("library.root") || "/"}
+            </Typography>
+          )}
+          {currentPath
+            .split("/")
+            .filter((p) => p !== "")
+            .map((p, i, arr) => {
+              const path = "/" + arr.slice(0, i + 1).join("/");
+              return (
+                <Typography
+                  key={path}
+                  onClick={() => getFolderContent(path)}
+                  sx={{ cursor: "pointer" }}
+                >
+                  {p}
+                </Typography>
+              );
+            })}
         </Breadcrumbs>
 
         <IconButton onClick={updateLibrary}>
@@ -195,6 +219,7 @@ function LibraryTabContent(props: { value: string }) {
       >
         {currentPath != "" && (
           <ListItem
+            key="parent"
             onClick={() => getFolderContent(getParentPath(currentPath))}
             sx={{ cursor: "pointer" }}
           >
@@ -209,6 +234,7 @@ function LibraryTabContent(props: { value: string }) {
 
         {content.folders.map((f) => (
           <ListItem
+            key={f}
             onClick={() => getFolderContent(currentPath + "/" + f)}
             sx={{ cursor: "pointer" }}
           >
@@ -223,6 +249,7 @@ function LibraryTabContent(props: { value: string }) {
 
         {content.files.map((f) => (
           <ListItem
+            key={f.id}
             secondaryAction={
               <IconButton edge="end" onClick={() => handlePlayButton(f)}>
                 <PlayArrowIcon />
@@ -239,7 +266,7 @@ function LibraryTabContent(props: { value: string }) {
             <ListItemText
               primary={f.name}
               secondary={
-                "Duration: " +
+                `${t("library.duration")}: ` +
                 FormatTime(f.duration) +
                 " -- " +
                 UnixToDate(f.playerAt)
@@ -261,6 +288,7 @@ function LibraryTabContent(props: { value: string }) {
 }
 
 export default function LibraryPanel() {
+  const { t } = useTranslation();
   const [value, setValue] = React.useState("tvshows");
 
   const handleChange = (_: React.SyntheticEvent, newValue: string) => {
@@ -282,8 +310,8 @@ export default function LibraryPanel() {
       }}
     >
       <Tabs value={value} onChange={handleChange} sx={{ flex: "none" }}>
-        <Tab label="Tv Shows" value="tvshows" />
-        <Tab label="Movies" value="movies" />
+        <Tab label={t("library.tvShows")} value="tvshows" />
+        <Tab label={t("library.movies")} value="movies" />
       </Tabs>
       <LibraryTabContent value={value} />
     </Box>

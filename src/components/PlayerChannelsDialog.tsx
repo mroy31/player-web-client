@@ -1,5 +1,6 @@
 import { AppContext } from "../App";
 import { PlayerStateT, VideoT } from "../types";
+import { useTranslation } from 'react-i18next';
 import {
   Dialog,
   DialogContent,
@@ -22,6 +23,7 @@ const PlayerChannelsDialog = (props: {
   open: boolean;
   onClose: () => void;
 }) => {
+  const { t } = useTranslation();
   const { client, error } = React.useContext(AppContext);
 
   const setProperty = React.useCallback(
@@ -43,15 +45,15 @@ const PlayerChannelsDialog = (props: {
         <Table>
           <TableBody>
             <TableRow>
-              <TableCell>Audio</TableCell>
+              <TableCell>{t('player.audio')}</TableCell>
               <TableCell>
                 <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
-                  <InputLabel id="achannel-label">Lang</InputLabel>
+                  <InputLabel id="achannel-label">{t('player.language')}</InputLabel>
                   <Select
                     labelId="achannel-label"
                     id="achannel-select"
                     value={props.state.aChannelIdx}
-                    label="Age"
+                    label={t('player.language')}
                     onChange={(e) => setProperty("aid", e.target.value)}
                   >
                     {props.video.audioStreams.map((s) => (
@@ -65,19 +67,19 @@ const PlayerChannelsDialog = (props: {
             </TableRow>
 
             <TableRow>
-              <TableCell>Subtitle</TableCell>
+              <TableCell>{t('player.subtitle')}</TableCell>
               <TableCell>
                 <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
-                  <InputLabel id="schannel-label">Lang</InputLabel>
+                  <InputLabel id="schannel-label">{t('player.language')}</InputLabel>
                   <Select
                     labelId="schannel-label"
                     id="schannel-select"
                     value={props.state.sChannelIdx}
-                    label="Age"
+                    label={t('player.language')}
                     onChange={(e) => setProperty("sid", e.target.value)}
                   >
                     <MenuItem value={0} key={0}>
-                      disable
+                      {t('common.disable')}
                     </MenuItem>
                     {props.video.subStreams.map((s) => (
                       <MenuItem value={s.idx} key={s.idx}>
@@ -92,7 +94,7 @@ const PlayerChannelsDialog = (props: {
         </Table>
       </DialogContent>
       <DialogActions>
-        <Button onClick={props.onClose}>Close</Button>
+        <Button onClick={props.onClose}>{t('common.cancel')}</Button>
       </DialogActions>
     </Dialog>
   );

@@ -5,6 +5,7 @@ import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import PauseIcon from "@mui/icons-material/Pause";
 import StopIcon from "@mui/icons-material/Stop";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
+import { useTranslation } from 'react-i18next';
 import { AppContext } from "../App";
 import VolumeDown from "@mui/icons-material/VolumeDown";
 import VolumeUp from "@mui/icons-material/VolumeUp";
@@ -19,6 +20,7 @@ import PlayerChannelsDialog from "./PlayerChannelsDialog";
 import PlayerSeekDialog from "./PlayerSeekDialog";
 
 export default function PlayerToolbar() {
+  const { t } = useTranslation();
   const theme = useTheme();
   const { client, error } = React.useContext(AppContext);
   const [state, setState] = React.useState<PlayerStateT>({
@@ -159,7 +161,7 @@ export default function PlayerToolbar() {
                 setSeekDialogOpen(true);
               }}
             >
-              Seek
+              {t('player.seek')}
             </MenuItem>
             <MenuItem
               onClick={() => {
@@ -167,7 +169,7 @@ export default function PlayerToolbar() {
                 setChDialogOpen(true);
               }}
             >
-              Set audio/subtitle channel
+              {t('player.audioSubtitleChannel')}
             </MenuItem>
           </Menu>
         </Stack>
@@ -188,7 +190,7 @@ export default function PlayerToolbar() {
         >
           <VolumeDown />
           <Slider
-            aria-label="Volume"
+            aria-label={t('player.volume')}
             value={state.volume}
             onChange={handleVolume}
           />

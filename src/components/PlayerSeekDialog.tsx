@@ -1,5 +1,6 @@
 import { AppContext } from "../App";
 import { PlayerStateT, VideoT } from "../types";
+import { useTranslation } from 'react-i18next';
 import { FormatTime } from "../utils";
 import {
   Dialog,
@@ -18,6 +19,7 @@ const PlayerSeekDialog = (props: {
   open: boolean;
   onClose: () => void;
 }) => {
+  const { t } = useTranslation();
   const { client, error } = React.useContext(AppContext);
   const [value, setValue] = React.useState(0);
   const [isDrag, setIsDrag] = React.useState(false);
@@ -59,7 +61,7 @@ const PlayerSeekDialog = (props: {
               {FormatTime(isDrag ? value : props.state.timePosition)}
             </Typography>
             <Slider
-              aria-label="Volume"
+              aria-label={t('player.seek')}
               max={props.video.duration}
               value={isDrag ? value : props.state.timePosition}
               onChange={handleSliderChange}
@@ -93,7 +95,7 @@ const PlayerSeekDialog = (props: {
         </Stack>
       </DialogContent>
       <DialogActions>
-        <Button onClick={props.onClose}>Close</Button>
+        <Button onClick={props.onClose}>{t('common.cancel')}</Button>
       </DialogActions>
     </Dialog>
   );

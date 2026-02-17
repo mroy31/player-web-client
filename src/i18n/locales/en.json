@@ -1,0 +1,32 @@
+{
+  "common": {
+    "cancel": "Cancel",
+    "save": "Save",
+    "at": "At",
+    "disable": "Disable"
+  },
+  "appBar": {
+    "title": "Video Player",
+    "disconnected": "disconnected"
+  },
+  "loading": {
+    "connecting": "Connecting to client"
+  },
+  "library": {
+    "tvShows": "Tv Shows",
+    "movies": "Movies",
+    "playFromBeginning": "Play from the beginning",
+    "resumeAt": "Resume at",
+    "duration": "Duration",
+    "libraryUpdated": "Library updated",
+    "root": "Root"
+  },
+  "player": {
+    "volume": "Volume",
+    "seek": "Seek",
+    "audioSubtitleChannel": "Set audio/subtitle channel",
+    "audio": "Audio",
+    "subtitle": "Subtitle",
+    "language": "Lang"
+  }
+}

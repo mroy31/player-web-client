@@ -1,5 +1,6 @@
 import * as React from 'react';
 import Container from '@mui/material/Container';
+import { useTranslation } from 'react-i18next';
 
 import { VideoPlayerServiceT, CreateConnectClient } from "./client";
 import VideoAppBar from './components/VideoAppBar';
@@ -22,6 +23,7 @@ export const AppContext = React.createContext<AppContextT>({
 })
 
 export default function App() {
+  const { t } = useTranslation();
   const [grpcClient, setGrpcClient] = React.useState<VideoPlayerServiceT | null>(null)
   const [message, setMessage] = React.useState<{type: string; msg: string} | null>()
   React.useEffect(() => {
@@ -37,7 +39,7 @@ export default function App() {
         justifyContent: "center",
         alignItems: "center"}}>
           <CircularProgress size={40} />
-          <Typography variant='h6'>Connection au client</Typography>
+          <Typography variant='h6'>{t('loading.connecting')}</Typography>
       </Container>
     )
   }

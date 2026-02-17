@@ -1,0 +1,32 @@
+{
+  "common": {
+    "cancel": "Annuler",
+    "save": "Enregistrer",
+    "at": "À",
+    "disable": "Désactiver"
+  },
+  "appBar": {
+    "title": "Lecteur Vidéo",
+    "disconnected": "déconnecté"
+  },
+  "loading": {
+    "connecting": "Connexion au client"
+  },
+  "library": {
+    "tvShows": "Séries TV",
+    "movies": "Films",
+    "playFromBeginning": "Jouer depuis le début",
+    "resumeAt": "Reprendre à partir de",
+    "duration": "Durée",
+    "libraryUpdated": "Bibliothèque mise à jour",
+    "root": "Racine"
+  },
+  "player": {
+    "volume": "Volume",
+    "seek": "Chercher",
+    "audioSubtitleChannel": "Définir le canal audio/sous-titres",
+    "audio": "Audio",
+    "subtitle": "Sous-titre",
+    "language": "Langue"
+  }
+}
