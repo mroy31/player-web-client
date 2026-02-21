@@ -31,28 +31,36 @@ export default function PlayerToolbar() {
     aChannelIdx: 0,
     sChannelIdx: 0,
   });
+  const [stStreamActive, setStStreamActive] = React.useState(false);
   const [currentVideo, setCurrentVideo] = React.useState<VideoT | null>(null);
   const [anchorMenu, setAnchorMenu] = React.useState<null | HTMLElement>(null);
   const [chDialogOpen, setChDialogOpen] = React.useState(false);
   const [seekDialogOpen, setSeekDialogOpen] = React.useState(false);
 
   React.useEffect(() => {
-    if (client != null) {
+    if (client != null && !stStreamActive) {
       (async () => {
-        const stream = client.playerStreamState({client: "web-player"})
-        for await (const st of stream) {
-            setState({
-              volume: st.volume,
-              playingStatus: st.playingStatus,
-              videoId: st.videoId,
-              timePosition: st.timePosition,
-              aChannelIdx: st.aid,
-              sChannelIdx: st.sid,
-            });
+        setStStreamActive(true)
+
+        try {
+          const stream = client.playerStreamState({client: "web-player"})
+          for await (const st of stream) {
+              setState({
+                volume: st.volume,
+                playingStatus: st.playingStatus,
+                videoId: st.videoId,
+                timePosition: st.timePosition,
+                aChannelIdx: st.aid,
+                sChannelIdx: st.sid,
+              });
+          }
+        } catch (err) {
+          console.log("STATE: loose connection to server")
         }
+        setStStreamActive(false)
       })();
     }
-  }, [client]);
+  }, [client, stStreamActive]);
 
   React.useEffect(() => {
     if (state.videoId != -1) {
