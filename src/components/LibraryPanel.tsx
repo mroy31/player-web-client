@@ -12,6 +12,7 @@ import RefreshIcon from "@mui/icons-material/Refresh";
 import VideoFileIcon from "@mui/icons-material/VideoFile";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import IconButton from "@mui/material/IconButton";
+import CircularProgress from '@mui/material/CircularProgress';
 import { useTranslation } from "react-i18next";
 import { AppContext } from "../App";
 import {
@@ -96,6 +97,7 @@ function LibraryTabContent(props: { value: string }) {
     folders: [],
   });
   const [selectedVideo, setSelectedVideo] = React.useState<VideoT | null>(null);
+  const [updateLoading, setUpdateLoading] = React.useState(false)
 
   const getFolderContent = React.useCallback(
     (path: string) => {
@@ -136,10 +138,12 @@ function LibraryTabContent(props: { value: string }) {
   );
 
   const updateLibrary = React.useCallback(() => {
+    setUpdateLoading(true)
     client
       ?.libraryUpdate({ name: props.value })
       .then(() => {
         info(t("library.libraryUpdated"));
+        setUpdateLoading(false)
       })
       .catch((err) => error(err));
   }, [client, props.value, t, info]);
@@ -202,9 +206,13 @@ function LibraryTabContent(props: { value: string }) {
             })}
         </Breadcrumbs>
 
-        <IconButton onClick={updateLibrary}>
-          <RefreshIcon />
-        </IconButton>
+        { updateLoading ? (
+          <CircularProgress color="secondary"  size="30px"/>
+        ) : (
+          <IconButton onClick={updateLibrary}>
+            <RefreshIcon />
+          </IconButton>
+        )}
       </Stack>
 
       <List
