@@ -38,10 +38,10 @@ export default function PlayerToolbar() {
   const [seekDialogOpen, setSeekDialogOpen] = React.useState(false);
 
   React.useEffect(() => {
+    setStStreamActive(true)
+
     if (client != null && !stStreamActive) {
       (async () => {
-        setStStreamActive(true)
-
         try {
           const stream = client.playerStreamState({client: "web-player"})
           for await (const st of stream) {

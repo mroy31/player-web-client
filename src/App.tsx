@@ -50,7 +50,7 @@ export default function App() {
       error: (err) => setMessage({type: "error", msg: err}),
       info: (msg) => setMessage({type: "info", msg}),
     }}>
-      <Container maxWidth="md" sx={{ display: "flex", flexDirection: "column", height: "99vh", padding: 0}}>
+      <Container maxWidth="md" sx={{ display: "flex", flexDirection: "column", height: "99dvh", padding: 0}}>
           <VideoAppBar/>
           <LibraryPanel/>
           <PlayerToolbar/>
