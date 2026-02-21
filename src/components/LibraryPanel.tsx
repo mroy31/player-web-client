@@ -64,14 +64,14 @@ function PlayDialog({ open, onClose, video, onPlay }: PlayDialogProps) {
       <DialogTitle>{video.name}</DialogTitle>
       <DialogContent>
         <List>
-          <ListItem onClick={handlePlay} sx={{ cursor: "pointer" }}>
+          <ListItem onClick={handlePlay} sx={{ cursor: "pointer", userSelect: "none" }}>
             <ListItemText
               primary={t("library.playFromBeginning")}
               secondary={`${t("library.duration")}: ${FormatTime(video.duration)}`}
             />
           </ListItem>
 
-          <ListItem onClick={handleResume} sx={{ cursor: "pointer" }}>
+          <ListItem onClick={handleResume} sx={{ cursor: "pointer", userSelect: "none" }}>
             <ListItemText
               primary={t("library.resumeAt")}
               secondary={`${t("common.at")} ${FormatTime(video.lastPosition)}/${FormatTime(video.duration)}`}
@@ -176,7 +176,7 @@ function LibraryTabContent(props: { value: string }) {
         alignItems="center"
         sx={{ flex: "none", py: "5px" }}
       >
-        <Breadcrumbs sx={{ mx: "5px" }}>
+        <Breadcrumbs sx={{ mx: "5px", userSelect: "none" }}>
           {currentPath != "" && (
             <Typography
               onClick={() => getFolderContent("")}
@@ -221,7 +221,7 @@ function LibraryTabContent(props: { value: string }) {
           <ListItem
             key="parent"
             onClick={() => getFolderContent(getParentPath(currentPath))}
-            sx={{ cursor: "pointer" }}
+            sx={{ cursor: "pointer", userSelect: "none" }}
           >
             <ListItemAvatar>
               <Avatar>
@@ -236,7 +236,7 @@ function LibraryTabContent(props: { value: string }) {
           <ListItem
             key={f}
             onClick={() => getFolderContent(currentPath + "/" + f)}
-            sx={{ cursor: "pointer" }}
+            sx={{ cursor: "pointer", userSelect: "none" }}
           >
             <ListItemAvatar>
               <Avatar>
@@ -250,6 +250,7 @@ function LibraryTabContent(props: { value: string }) {
         {content.files.map((f) => (
           <ListItem
             key={f.id}
+            sx={{ cursor: "pointer", userSelect: "none" }}
             secondaryAction={
               <IconButton edge="end" onClick={() => handlePlayButton(f)}>
                 <PlayArrowIcon />
