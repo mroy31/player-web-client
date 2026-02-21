@@ -1,0 +1,20 @@
+{
+  "name": "VideoPlay",
+  "icons": [
+    {
+      "src": "icons/ics1024.png",
+      "type": "image/png",
+      "sizes": "1024x1024"
+    },
+    {
+      "src": "icons/ics512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    },
+    {
+      "src": "icons/ics192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    }
+  ]
+}
